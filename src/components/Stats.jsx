@@ -1,10 +1,25 @@
 export default function Stats({ timeLeft, wpm, accuracy, mistakes }) {
   return (
     <div className="stats">
-      <p>Time Left: <span>{timeLeft}</span>s</p>
-      <p>WPM: <span>{wpm}</span></p>
-      <p>Accuracy: <span>{accuracy}</span>%</p>
-      <p>Mistakes: <span>{mistakes}</span></p>
+      <div className="stat-card">
+        <span className="stat-label">Time Left</span>
+        <span className="stat-value">{timeLeft}s</span>
+      </div>
+
+      <div className="stat-card">
+        <span className="stat-label">WPM</span>
+        <span className="stat-value">{wpm}</span>
+      </div>
+
+      <div className="stat-card">
+        <span className="stat-label">Accuracy</span>
+        <span className="stat-value">{accuracy}%</span>
+      </div>
+
+      <div className="stat-card">
+        <span className="stat-label">Mistakes</span>
+        <span className="stat-value">{mistakes}</span>
+      </div>
     </div>
   );
 }

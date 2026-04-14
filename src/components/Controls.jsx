@@ -22,8 +22,12 @@ export default function Controls({
       </div>
 
       <div className="buttons">
-        <button onClick={startTest}>Start Test</button>
-        <button onClick={resetTest}>Reset</button>
+        <button type="button" onClick={startTest}>
+          Start Test
+        </button>
+        <button type="button" className="secondary-btn" onClick={resetTest}>
+          Reset
+        </button>
       </div>
     </>
   );

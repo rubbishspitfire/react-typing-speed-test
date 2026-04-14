@@ -155,13 +155,28 @@ export default function App() {
         />
 
         {isFinished && (
-          <div className="result-box">
-            <h2>Test Complete</h2>
-            <p>Your final WPM: {stats.wpm}</p>
-            <p>Your accuracy: {stats.accuracy}%</p>
-            <p>Your difficulty: {difficulty}</p>
-          </div>
-        )}
+  <div className="result-box">
+    <h2>Test Complete</h2>
+    <p>Nice work — here’s your final result.</p>
+
+    <div className="result-grid">
+      <div className="result-pill">
+        <strong>{stats.wpm}</strong>
+        <div>WPM</div>
+      </div>
+
+      <div className="result-pill">
+        <strong>{stats.accuracy}%</strong>
+        <div>Accuracy</div>
+      </div>
+
+      <div className="result-pill">
+        <strong>{difficulty}</strong>
+        <div>Difficulty</div>
+      </div>
+    </div>
+  </div>
+)}
 
         <Leaderboard
           leaderboard={leaderboard}

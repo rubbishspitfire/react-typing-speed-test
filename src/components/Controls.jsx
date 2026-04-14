@@ -3,7 +3,9 @@ export default function Controls({
   setDifficulty,
   isRunning,
   startTest,
-  resetTest
+  resetTest,
+  playerName,
+  setPlayerName
 }) {
   return (
     <>
@@ -21,11 +23,30 @@ export default function Controls({
         </select>
       </div>
 
+      {/* NEW: Player name input */}
+      <div className="difficulty-box">
+        <label htmlFor="name">Name:</label>
+        <input
+          id="name"
+          className="name-input"
+          type="text"
+          placeholder="Enter your name"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          disabled={isRunning}
+        />
+      </div>
+
       <div className="buttons">
         <button type="button" onClick={startTest}>
           Start Test
         </button>
-        <button type="button" className="secondary-btn" onClick={resetTest}>
+
+        <button
+          type="button"
+          className="secondary-btn"
+          onClick={resetTest}
+        >
           Reset
         </button>
       </div>

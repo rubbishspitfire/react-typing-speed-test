@@ -20,9 +20,15 @@ export default function App() {
   const [totalTime, setTotalTime] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => getSavedLeaderboard());
+  const [playerName, setPlayerName] = useState(
+    () => localStorage.getItem("playerName") || ""
+  );
+
   const successAudioRef = useRef(null);
 
   useEffect(() => {
@@ -33,6 +39,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("typingLeaderboard", JSON.stringify(leaderboard));
   }, [leaderboard]);
+
+  useEffect(() => {
+    localStorage.setItem("playerName", playerName);
+  }, [playerName]);
 
   useEffect(() => {
     if (!isRunning || timeLeft <= 0) return;
@@ -56,6 +66,12 @@ export default function App() {
     return calculateStats(input, quote, totalTime, timeLeft);
   }, [input, quote, totalTime, timeLeft]);
 
+  const isHighScore =
+    isFinished &&
+    stats.wpm > 0 &&
+    leaderboard.length > 0 &&
+    stats.wpm >= leaderboard[0]?.wpm;
+
   useEffect(() => {
     if (!isRunning) return;
 
@@ -70,6 +86,7 @@ export default function App() {
 
     const newEntry = {
       id: Date.now(),
+      name: playerName.trim() || "Anonymous",
       difficulty,
       wpm: stats.wpm,
       accuracy: stats.accuracy
@@ -83,7 +100,7 @@ export default function App() {
         })
         .slice(0, 5);
     });
-  }, [isFinished, quote, difficulty, stats.wpm, stats.accuracy]);
+  }, [isFinished, quote, difficulty, stats.wpm, stats.accuracy, playerName]);
 
   function startTest() {
     const newTime = getTimeByDifficulty(difficulty);
@@ -136,6 +153,8 @@ export default function App() {
           isRunning={isRunning}
           startTest={startTest}
           resetTest={resetTest}
+          playerName={playerName}
+          setPlayerName={setPlayerName}
         />
 
         <QuoteDisplay
@@ -155,28 +174,34 @@ export default function App() {
         />
 
         {isFinished && (
-  <div className="result-box">
-    <h2>Test Complete</h2>
-    <p>Nice work — here’s your final result.</p>
+          <div className="result-box">
+            <h2>Test Complete</h2>
+            <p>Nice work — here’s your final result.</p>
 
-    <div className="result-grid">
-      <div className="result-pill">
-        <strong>{stats.wpm}</strong>
-        <div>WPM</div>
-      </div>
+            <div className="result-grid">
+              <div className="result-pill">
+                <strong>{stats.wpm}</strong>
+                <div>WPM</div>
+              </div>
 
-      <div className="result-pill">
-        <strong>{stats.accuracy}%</strong>
-        <div>Accuracy</div>
-      </div>
+              <div className="result-pill">
+                <strong>{stats.accuracy}%</strong>
+                <div>Accuracy</div>
+              </div>
 
-      <div className="result-pill">
-        <strong>{difficulty}</strong>
-        <div>Difficulty</div>
-      </div>
-    </div>
-  </div>
-)}
+              <div className="result-pill">
+                <strong>{difficulty}</strong>
+                <div>Difficulty</div>
+              </div>
+            </div>
+
+            {isHighScore && (
+              <p className="high-score">
+                🎉 New High Score!
+              </p>
+            )}
+          </div>
+        )}
 
         <Leaderboard
           leaderboard={leaderboard}

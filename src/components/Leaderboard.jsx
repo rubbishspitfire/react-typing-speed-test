@@ -14,9 +14,9 @@ export default function Leaderboard({ leaderboard, clearLeaderboard }) {
         <ol>
           {leaderboard.map((entry) => (
             <li key={entry.id}>
-              <span><strong>{entry.wpm} WPM</strong></span>
-              <span>{entry.accuracy}% Accuracy</span>
-              <span>{entry.difficulty}</span>
+              <span><strong>{entry.name}</strong></span>
+              <span>{entry.wpm} WPM</span>
+              <span>{entry.accuracy}%</span>
             </li>
           ))}
         </ol>

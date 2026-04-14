@@ -23,7 +23,6 @@ export default function Controls({
         </select>
       </div>
 
-      {/* NEW: Player name input */}
       <div className="difficulty-box">
         <label htmlFor="name">Name:</label>
         <input

@@ -6,10 +6,8 @@ export default function QuoteDisplay({
   isRunning,
   progress,
   setInput,
-  soundEnabled
 }) {
   const textareaRef = useRef(null);
-  const keyAudioRef = useRef(null);
 
   useEffect(() => {
     if (isRunning && textareaRef.current) {
@@ -40,11 +38,6 @@ export default function QuoteDisplay({
 
     const nextValue = e.target.value.slice(0, quote.length);
     setInput(nextValue);
-
-    if (soundEnabled && keyAudioRef.current) {
-      keyAudioRef.current.currentTime = 0;
-      keyAudioRef.current.play().catch(() => {});
-    }
   }
 
   function handlePaste(e) {
@@ -86,8 +79,6 @@ export default function QuoteDisplay({
       />
 
       <p className="input-hint">Typing only. Pasting is disabled.</p>
-
-      <audio ref={keyAudioRef} src="/key.mp3" preload="auto" />
     </>
   );
 }

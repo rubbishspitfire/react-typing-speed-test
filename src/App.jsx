@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Controls from "./components/Controls";
@@ -23,13 +23,10 @@ export default function App() {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => getSavedLeaderboard());
   const [playerName, setPlayerName] = useState(
     () => localStorage.getItem("playerName") || ""
   );
-
-  const successAudioRef = useRef(null);
 
   useEffect(() => {
     document.body.className = theme;
@@ -118,10 +115,6 @@ export default function App() {
     setIsRunning(false);
     setIsFinished(true);
 
-    if (soundEnabled && successAudioRef.current) {
-      successAudioRef.current.currentTime = 0;
-      successAudioRef.current.play().catch(() => {});
-    }
   }
 
   function resetTest() {
@@ -143,8 +136,6 @@ export default function App() {
         <Header
           theme={theme}
           setTheme={setTheme}
-          soundEnabled={soundEnabled}
-          setSoundEnabled={setSoundEnabled}
         />
 
         <Controls
@@ -163,7 +154,6 @@ export default function App() {
           isRunning={isRunning}
           progress={stats.progress}
           setInput={setInput}
-          soundEnabled={soundEnabled}
         />
 
         <Stats
@@ -207,8 +197,6 @@ export default function App() {
           leaderboard={leaderboard}
           clearLeaderboard={clearLeaderboard}
         />
-
-        <audio ref={successAudioRef} src="/success.mp3" preload="auto" />
       </div>
     </div>
   );
